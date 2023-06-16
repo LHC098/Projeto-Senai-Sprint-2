@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laguna School</title>
+    <link rel="stylesheet" href="../CSS/Alunos&Profs.css">
+    <script type="text/javascript" src="../Javas/aluno.js"></script>
+    <link rel="shortcut icon" href="../Imagens e Logo/favicon.ico">
+</head>
+<body>
+  <div class="top-bar">
+    <nav role="navigation" class="navigation">
+      <div id="habilitarmenu">
+        <input type="checkbox" onclick="toggleMenu1()" />
+        <span></span>
+        <span></span>
+        <span></span>
+        <ul id="menu">
+          <li><button id="btn-div" onclick="exibirConteudo()">Tarefas</button></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="margin-div"><img src="../Imagens e Logo/lgs.jfif" width="100px" height="90px"></div>
+  </div>
+  
+  <div id="conteudo" class="hidden3">
+    <script type="text/javascript">
+      // Ao carregar o site, a função coloca os posts e adiciona os botões "Aceitar Tarefa" e "Não Aceitar Tarefa"
+      window.onload = function() {
+        var posts = JSON.parse(localStorage.getItem("posts")) || [];
+        var postsRepre = JSON.parse(localStorage.getItem("postsRepre")) || [];
+    
+        var conteudoDiv = document.getElementById("conteudo");
+        conteudoDiv.innerHTML = "";
+    
+        exibirTarefas(posts, "post", conteudoDiv);
+        exibirTarefas(postsRepre, "postRepre", conteudoDiv);
+    
+        exibirPosts2();
+      };
+    
+      function exibirTarefas(tarefas, prefixoId, container) {
+        for (var i = 0; i < tarefas.length; i++) {
+          var tarefa = tarefas[i];
+          var tarefaDiv = document.createElement("div");
+          tarefaDiv.setAttribute("id", prefixoId + "-" + i);
+    
+          var conteudoTarefa =
+            "<h2>Matéria</h2>" +
+            tarefa.title +
+            "<p><h2>Conteúdo</h2>" +
+            tarefa.content +
+            "</p><p><h2>Descrição</h2>" +
+            tarefa.descricao +
+            "</p><p><h2>Data de Entrega</h2>" +
+            tarefa.dataentrega +
+            "</p><p><h2>Horario</h2></p>" +
+            tarefa.horario;
+    
+          tarefaDiv.innerHTML = conteudoTarefa;
+          tarefaDiv.style.marginBottom = "20px";
+          tarefaDiv.style.border = "2px solid " + getRandomColor();
+          tarefaDiv.style.borderRadius = "10px";
+    
+          if (tarefa.aceita === true) {
+            var confirmationMessage = document.createElement("p");
+            confirmationMessage.innerText = "Tarefa aceita com sucesso!";
+            tarefaDiv.appendChild(confirmationMessage);
+          } else {
+            var acceptButton = document.createElement("button");
+            acceptButton.innerText = "Aceitar Tarefa";
+            acceptButton.id = "accept-" + prefixoId + "-" + i;
+            acceptButton.addEventListener("click", function() {
+              aceitarTarefa(this.id);
+            });
+            tarefaDiv.appendChild(acceptButton);
+    
+            var rejectButton = document.createElement("button");
+            rejectButton.innerText = "Não Aceitar Tarefa";
+            rejectButton.id = "reject-" + prefixoId + "-" + i;
+            rejectButton.addEventListener("click", function() {
+              naoAceitarTarefa(this.id);
+            });
+            tarefaDiv.appendChild(rejectButton);
+          }
+    
+          container.appendChild(tarefaDiv);
+        }
+      }
+    
+      function exibirPosts2() {
+  var posts2 = JSON.parse(localStorage.getItem("posts2")) || [];
+  var conteudoDiv = document.getElementById("conteudo");
+
+  for (var i = 0; i < posts2.length; i++) {
+    var post2 = document.createElement("div");
+    post2.classList.add("post2");
+    post2.setAttribute("id", "post2-" + i);
+          post2.classList.add("post2");
+          post2.innerHTML =
+            "<h2>Matéria</h2>" +
+            posts2[i].title2 +
+            "<p><h2>Conteúdo</h2>" +
+            posts2[i].content2 +
+            "</p><p><h2>Descrição</h2>" +
+            posts2[i].descricao2 +
+            "</p><p><h2>Data de Entrega</h2>" +
+            posts2[i].dataentrega2 +
+            "</p><p><h2>Horario</h2></p>" +
+            posts2[i].horario2;
+          post2.style.marginBottom = "20px";
+          post2.style.border = "2px solid " + getRandomColor();
+          post2.style.borderRadius = "10px";
+    
+          var acceptButton = document.createElement("button");
+          acceptButton.innerText = "Aceitar Tarefa";
+          acceptButton.id = "accept-post2-" + i;
+          acceptButton.addEventListener("click", function() {
+            aceitarTarefa(this.id);
+          });
+          post2.appendChild(acceptButton);
+    
+          var rejectButton = document.createElement("button");
+          rejectButton.innerText = "Não Aceitar Tarefa";
+          rejectButton.id = "reject-post2-" + i;
+          rejectButton.addEventListener("click", function() {
+            naoAceitarTarefaPost2(this.id);
+          });
+          post2.appendChild(rejectButton);
+    
+          conteudoDiv.appendChild(post2);
+        }
+      } 
+      
+      function naoAceitarTarefa(id) {
+        var postId = id.split("-")[2];
+        var prefixoId = id.split("-")[1];
+        var postContent = document.getElementById(prefixoId + "-" + postId);
+    
+        // Remover o post
+        postContent.remove();
+      }
+      
+      function naoAceitarTarefaPost2(id) {
+  var postId = id.split("-")[2];
+  var postContent = document.getElementById("post2-" + postId);
+
+  // Remover o post
+  postContent.remove();
+}
+    
+      function aceitarTarefa(id) {
+        var postId = id.split("-")[2];
+        var prefixoId = id.split("-")[1];
+        var acceptButton = document.getElementById(id);
+    
+        // Ocultar botão "Aceitar Tarefa"
+        acceptButton.style.display = "none";
+    
+        // Remover botão "Não Aceitar Tarefa"
+        var rejectButton = document.getElementById("reject-" + prefixoId + "-" + postId);
+        rejectButton.style.display = "none";
+      }
+    
+      function getRandomColor() {
+        var letters = "0123456789ABCDEF";
+        var color = "#";
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+    </script>
+  </div>
+  <div class="carousel-container">
+    <div class="carousel">
+      <div class="slides">
+        <div class="slide">
+          <img src="../Imagens do Carrosel/3.jpg" alt="Primeira imagem">
+        </div>
+        <div class="slide">
+          <img src="../Imagens do Carrosel/alunos.jpg" alt="Segunda imagem">
+        </div>
+        <div class="slide">
+          <img src="../Imagens do Carrosel/neguin.jpeg" alt="Terceira imagem">
+        </div>
+      </div>
+    </div>
+    </div>
+    <script>
+    //Esse e o codigo do carrosel de imagens
+  document.addEventListener("DOMContentLoaded", function() {
+    const slidesContainer = document.querySelector(".carousel .slides");
+    const slides = Array.from(slidesContainer.children);
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    const slideCount = slides.length;
+    let currentSlide = 0;
+  
+    function moveToSlide(slideIndex) {
+      slidesContainer.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+      currentSlide = slideIndex;
+    }
+  
+    function nextSlide() {
+      if (currentSlide === slideCount - 1) {
+        moveToSlide(0);
+      } else {
+        moveToSlide(currentSlide + 1);
+      }
+    }
+  
+    setInterval(nextSlide, 2000);
+  });
+  </script>
+</body>
+</html>

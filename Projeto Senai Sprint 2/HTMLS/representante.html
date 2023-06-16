@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../Javas/representante.js"></script>
+    <link rel="stylesheet" href="../CSS/Alunos&Profs.css">
+    <link rel="shorcut icon" href="../Imagens e Logo/favicon.ico">
+    <title>Laguna School</title>
+</head>
+<body>
+  <div class="top-bar">
+    <nav role="navigation" class="navigation">
+      <div id="habilitarmenu">
+        <input type="checkbox" onclick="toggleMenu()" />
+        <span></span>
+        <span></span>
+        <span></span>
+        <ul id="menu">
+        <li><button id="btn-div" onclick="exibirConteudo()" onclick="exibirConteudo1()">Tarefas</button></li><br>
+        <br><li><button id="btn-form" onclick="exibirtarefa()">Adicionar Tarefa</button></li>
+        </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="margin-div"><img src="../Imagens e Logo/lgs.jfif" width="100px" height="90px"></div>
+  </div>
+  
+  <div id="conteudo" class="hidden" >
+  </div>
+  <div id="conteudo1" class="hidden">
+  </div>
+  <div id="form-container" class="hidden1">
+    <form class="post-form" onsubmit="adicionarPostRepre(); return false;">
+      <br><label for="title">Matéria:</label><br>
+      <input type="text" id="materia" name="materia"><br>
+      <label for="content">Conteúdo:</label><br>
+      <textarea id="content" name="content"></textarea><br>
+      <label for="descricao">Descrição do que deve ser feito</label><br>
+      <input type="text" name="descricao" id="descricao"><br>
+      <label for="dataentrega">Data de Entrega</label><br>
+      <input type="date" id="dataentrega" name="dataentrega"><br>
+      <label for="horario">Horario</label><br>
+      <input type="time" id="hora" name="horario"><br>
+      <input type="submit" value="Enviar"><br>
+    </form>
+  </div>
+      <br>
+  <div class="carousel-container">
+    <div class="carousel">
+      <div class="slides">
+        <div class="slide">
+          <img src="../Imagens do Carrosel/3.jpg" alt="Primeira imagem">
+        </div>
+        <div class="slide">
+          <img src="../Imagens do Carrosel/alunos.jpg" alt="Segunda imagem">
+        </div>
+        <div class="slide">
+          <img src="../Imagens do Carrosel/neguin.jpeg" alt="Terceira imagem">
+        </div>
+      </div>
+    </div>
+    </div>
+    <script>
+    //Esse e o codigo do carrosel de imagens
+  document.addEventListener("DOMContentLoaded", function() {
+    const slidesContainer = document.querySelector(".carousel .slides");
+    const slides = Array.from(slidesContainer.children);
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    const slideCount = slides.length;
+    let currentSlide = 0;
+  
+    function moveToSlide(slideIndex) {
+      slidesContainer.style.transform = `translateX(-${slideIndex * slideWidth}px)`;
+      currentSlide = slideIndex;
+    }
+  
+    function nextSlide() {
+      if (currentSlide === slideCount - 1) {
+        moveToSlide(0);
+      } else {
+        moveToSlide(currentSlide + 1);
+      }
+    }
+  
+    setInterval(nextSlide, 2000);
+  });
+  </script>
+
+</body>
+</html>
